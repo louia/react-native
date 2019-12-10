@@ -8,15 +8,40 @@ import Modal from "react-native-modal";
 class TileGrid extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       tilesValues: ([1, 2, 3, 4, 5, 6, 7, 8, 0]),
       score: 0,
-      win: false
+      win: false,
+      tilesValuesAfterRandomize : []
     }
   }
 
+
+
   componentDidMount() {
     this.randomize();
+  }
+
+  componentDidUpdate(){
+    if(this.props.isPressNew) {
+      this.setState({
+        tilesValues: ([1, 2, 3, 4, 5, 6, 7, 8, 0]),
+        score: 0,
+        win: false
+      })
+      this.randomize();
+      this.props.isPressNewFinished()
+    }
+
+    if(this.props.isPressReset) {      
+      this.setState({
+        tilesValues: this.state.tilesValuesAfterRandomize,
+        score: 0,
+        win: false
+      })
+      this.props.isPressResetFinished()
+    }
   }
 
   randomize() {
@@ -30,6 +55,7 @@ class TileGrid extends Component {
     }
     this.setState({
       tilesValues: copyVal,
+      tilesValuesAfterRandomize : copyVal
     });
   }
 
@@ -70,7 +96,6 @@ class TileGrid extends Component {
           win: true
         })
       }
-      console.log(copyVal);
       return true;
     }
     return false;
@@ -80,8 +105,15 @@ class TileGrid extends Component {
     this.setState({ win: !this.state.win });
   };
 
-  render() {
+  reset(){
+    this.setState({
+      tilesValues: ([1, 2, 3, 4, 5, 6, 7, 8, 0]),
+      score: 0,
+      win: false
+    })
+  }
 
+  render() {
     return (
       <View>
         <Modal
@@ -97,8 +129,8 @@ class TileGrid extends Component {
           backdropTransitionOutTiming={600}>
           <View style={styles.content}>
             <Text style={styles.contentTitle}>Victoire !</Text>
-            <Text style={styles.contentTitle}>🎆 Hi tu as gagné ! 🎆</Text>
-            <Button testID={'close-button'} onPress={this.toggleModal} title="Close" />
+            <Text style={styles.contentTitle}>🎆 Tu as gagné ! 🎆</Text>
+            <Button testID={'close-button'} onPress={this.toggleModal} title="Fermer" />
           </View>
         </Modal>
         <Text style={{

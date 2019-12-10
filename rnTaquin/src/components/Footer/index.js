@@ -19,9 +19,11 @@ class Footer extends Component {
                 color: 'pink'
             }}>
                 <Button
+                onPress={this.props.onPressNew}
                     title="NEW"
                 />
                 <Button
+                onPress={this.props.onPressReset}
                     title="RESET"
                 />
             </View>
