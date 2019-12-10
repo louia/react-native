@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Button, Text, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Tile from '../Tile';
+import Modal from "react-native-modal";
+
 
 class TileGrid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tilesValues: ([1, 2, 3, 4, 5, 6, 7, 8, 0])
+      tilesValues: ([1, 2, 3, 4, 5, 6, 7, 8, 0]),
+      score: 0,
+      win: false
     }
   }
 
@@ -17,16 +21,16 @@ class TileGrid extends Component {
 
   randomize() {
     let copyVal = JSON.parse(JSON.stringify(this.state.tilesValues));
-    for (let i = 0; i <= 50; i++) {
+    for (let i = 0; i <= 2; i++) {
       let cases = this.getCasesValides(copyVal);
       let index = Math.floor(Math.random() * cases.caseValides.length);
       let tempory = copyVal[cases.caseValides[index]];
       copyVal[cases.caseValides[index]] = copyVal[cases.posZero];
       copyVal[cases.posZero] = tempory;
     }
-    this.setState(({
+    this.setState({
       tilesValues: copyVal,
-    }));
+    });
   }
 
   getCasesValides(values = this.state.tilesValues) {
@@ -50,9 +54,6 @@ class TileGrid extends Component {
   tilePress(tileNumber) {
     let dataCases = this.getCasesValides();
     // console.log(dataCases, tileNumber);
-    console.log(this.state.tilesValues);
-    
-    
     if (dataCases.caseValides.includes(tileNumber)) {
       let copyVal = JSON.parse(JSON.stringify(this.state.tilesValues));
       let tempory = copyVal[tileNumber];
@@ -60,22 +61,51 @@ class TileGrid extends Component {
       copyVal[tileNumber] = copyVal[dataCases.posZero];
 
       copyVal[dataCases.posZero] = tempory;
-      this.setState({
+      this.setState((prevState, props) => ({
         tilesValues: copyVal,
-      });
+        score: prevState.score + 1
+      }));
+      if (JSON.stringify(copyVal) == JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 0])) {
+        this.setState({
+          win: true
+        })
+      }
+      console.log(copyVal);
       return true;
     }
     return false;
   }
 
+  toggleModal = () => {
+    this.setState({ win: !this.state.win });
+  };
+
   render() {
+
     return (
       <View>
+        <Modal
+          testID={'modal'}
+          isVisible={this.state.win}
+          backdropColor="#B4B3DB"
+          backdropOpacity={0.8}
+          animationIn="zoomInDown"
+          animationOut="zoomOutUp"
+          animationInTiming={600}
+          animationOutTiming={600}
+          backdropTransitionInTiming={600}
+          backdropTransitionOutTiming={600}>
+          <View style={styles.content}>
+            <Text style={styles.contentTitle}>Victoire !</Text>
+            <Text style={styles.contentTitle}>🎆 Hi tu as gagné ! 🎆</Text>
+            <Button testID={'close-button'} onPress={this.toggleModal} title="Close" />
+          </View>
+        </Modal>
         <Text style={{
           textAlign: 'center'
-        }}> score : 42 </Text>
+        }}> score : {this.state.score} </Text>
         <View style={{
-          margin : 0,
+          margin: 0,
           justifyContent: 'center',
           borderWidth: 1,
           borderColor: 'black',
@@ -115,7 +145,7 @@ class TileGrid extends Component {
             </Tile>
           </View>
         </View>
-      </View>
+      </View >
     );
   }
 }
@@ -132,10 +162,23 @@ const styles = StyleSheet.create({
   tileRow: {
     flexDirection: 'row',
   },
+  content: {
+    backgroundColor: 'white',
+    padding: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  contentTitle: {
+    fontSize: 20,
+    marginBottom: 12,
+  },
 });
 
 TileGrid.propTypes = {
   dimension: PropTypes.number,
+  sourcePicture: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
 };
 TileGrid.defaultProps = {
   dimension: 25

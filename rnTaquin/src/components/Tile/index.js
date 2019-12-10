@@ -8,7 +8,7 @@ class Tile extends Component {
     }
 
     render() {
-        let { tileSize, children, ...props } = this.props;
+        let { tileSize, children, sourcePicture, ...props } = this.props;
         return (
             children == '0' ?
             <View
