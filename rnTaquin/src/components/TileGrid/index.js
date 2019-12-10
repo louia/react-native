@@ -129,7 +129,7 @@ class TileGrid extends Component {
           backdropTransitionOutTiming={600}>
           <View style={styles.content}>
             <Text style={styles.contentTitle}>Victoire !</Text>
-            <Text style={styles.contentTitle}>🎆 Tu as gagné ! 🎆</Text>
+            <Text style={styles.contentTitle}>🎆 Tu as gagné en {this.state.score} coups ! 🎆</Text>
             <Button testID={'close-button'} onPress={this.toggleModal} title="Fermer" />
           </View>
         </Modal>
@@ -144,35 +144,35 @@ class TileGrid extends Component {
           height: this.props.dimension
         }}>
           <View style={styles.tileRow}>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 0)}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 0)} sourcePicture={this.props.sourcePicture}>
               {this.state.tilesValues[0]}
             </Tile>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 1)}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 1)} sourcePicture={this.props.sourcePicture}>
               {this.state.tilesValues[1]}
             </Tile>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 2)}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 2)} sourcePicture={this.props.sourcePicture}>
               {this.state.tilesValues[2]}
             </Tile>
           </View>
           <View style={styles.tileRow}>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 3)}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 3)} sourcePicture={this.props.sourcePicture}>
               {this.state.tilesValues[3]}
             </Tile>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 4)}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 4)} sourcePicture={this.props.sourcePicture}>
               {this.state.tilesValues[4]}
             </Tile>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 5)}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 5)} sourcePicture={this.props.sourcePicture}>
               {this.state.tilesValues[5]}
             </Tile>
           </View>
           <View style={styles.tileRow}>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 6)}>
+            <Tile tileSize={this.props.dimension / 3} sourcePicture={this.props.sourcePicture} onPress={this.tilePress.bind(this, 6)}>
               {this.state.tilesValues[6]}
             </Tile>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 7)}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 7)} sourcePicture={this.props.sourcePicture}>
               {this.state.tilesValues[7]}
             </Tile>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 8)}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 8)} sourcePicture={this.props.sourcePicture}>
               {this.state.tilesValues[8]}
             </Tile>
           </View>
