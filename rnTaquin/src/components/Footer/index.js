@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import PictureSelector from '../PictureSelector';
 
+import { connect } from 'react-redux';
+
+import { nouveau,reset } from '../../actions/index';
+
+
+
 class Footer extends Component {
     constructor(props) {
         super(props);
@@ -10,6 +16,8 @@ class Footer extends Component {
     }
 
     render() {
+        let { onPressNew,onPressReset,...props } = this.props;
+
         return (
             <View style={{
                 flexDirection: 'row',
@@ -19,16 +27,20 @@ class Footer extends Component {
                 color: 'pink'
             }}>
                 <Button
-                onPress={this.props.onPressNew}
+                onPress={()=>onPressNew()}
                     title="NEW"
                 />
                 <Button
-                onPress={this.props.onPressReset}
+                onPress={()=>onPressReset()}
                     title="RESET"
                 />
             </View>
         );
     }
 }
+const mapDispatchToProps = dispatch => ({
+    onPressNew: () => dispatch(nouveau()),
+    onPressReset: () => dispatch(reset()),
+});
 
-export default Footer;
+export default connect(null, mapDispatchToProps)(Footer);

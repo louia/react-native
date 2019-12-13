@@ -9,10 +9,10 @@ import Footer from '../Footer';
 class Taquin extends Component {
   constructor(props) {
     super(props);
-    this.on_press_new = this.on_press_new.bind(this);
-    this.on_press_newFinish = this.on_press_newFinish.bind(this);
-    this.on_press_reset = this.on_press_reset.bind(this);
-    this.on_press_resetFinish = this.on_press_resetFinish.bind(this);
+    // this.on_press_new = this.on_press_new.bind(this);
+    // this.on_press_newFinish = this.on_press_newFinish.bind(this);
+    // this.on_press_reset = this.on_press_reset.bind(this);
+    // this.on_press_resetFinish = this.on_press_resetFinish.bind(this);
     this.state = {
       dimension : 0,
       clickNew : false,
@@ -20,29 +20,29 @@ class Taquin extends Component {
     };
   }
 
-  on_press_new(){  
-    this.setState({
-      clickNew : true,
-    })  
-  }
+  // on_press_new(){  
+  //   this.setState({
+  //     clickNew : true,
+  //   })  
+  // }
 
-  on_press_newFinish(){  
-    this.setState({
-      clickNew : false,
-    })  
-  }
+  // on_press_newFinish(){  
+  //   this.setState({
+  //     clickNew : false,
+  //   })  
+  // }
 
-  on_press_reset(){  
-    this.setState({
-      clickReset : true,
-    })  
-  }
+  // on_press_reset(){  
+  //   this.setState({
+  //     clickReset : true,
+  //   })  
+  // }
 
-  on_press_resetFinish(){  
-    this.setState({
-      clickReset : false,
-    })  
-  }
+  // on_press_resetFinish(){  
+  //   this.setState({
+  //     clickReset : false,
+  //   })  
+  // }
 
   find_dimesions(layout) {
     const { x, y, width, height } = layout;
@@ -57,18 +57,12 @@ class Taquin extends Component {
     return (
       <View onLayout={(event) => { this.find_dimesions(event.nativeEvent.layout) }}>
         <Title></Title>
-        <TileGrid 
-          isPressNewFinished={this.on_press_newFinish} 
-          isPressNew={this.state.clickNew} 
-          isPressResetFinished={this.on_press_resetFinish} 
-          isPressReset={this.state.clickReset} 
-
+        <TileGrid
           dimension={this.state.dimension}
           >
-
           </TileGrid>
         <PictureSelector></PictureSelector>
-        <Footer onPressNew={this.on_press_new} onPressReset={this.on_press_reset}></Footer>
+        <Footer></Footer>
       </View>
     );
   }
