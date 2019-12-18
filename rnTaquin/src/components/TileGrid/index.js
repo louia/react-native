@@ -11,15 +11,30 @@ import { setTileValues,setTileValuesAfterRand,setScore,setWin } from '../../acti
 class TileGrid extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      sourcePicture : ''
+    };
   }
 
   componentDidMount() {
     this.randomize();
+    console.log(this.state.sourcePicture,this.props.img);
+    
+    if(this.state.sourcePicture != this.props.img){
+      this.setState({
+        sourcePicture : this.props.img
+      })
+    }
   }
 
   componentDidUpdate(){    
     if(this.props.random && JSON.stringify(this.props.tilesValue) == JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 0])){
       this.randomize();
+    }
+    if(this.state.sourcePicture != this.props.img){
+      this.setState({
+        sourcePicture : this.props.img
+      })
     }
   }
 
@@ -112,35 +127,35 @@ class TileGrid extends React.Component {
           height: this.props.dimension
         }}>
           <View style={styles.tileRow}>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 0)} sourcePicture={this.props.sourcePicture}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 0)} sourcePicture={this.state.sourcePicture}>
               {this.props.tilesValue[0]}
             </Tile>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 1)} sourcePicture={this.props.sourcePicture}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 1)} sourcePicture={this.state.sourcePicture}>
               {this.props.tilesValue[1]}
             </Tile>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 2)} sourcePicture={this.props.sourcePicture}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 2)} sourcePicture={this.state.sourcePicture}>
               {this.props.tilesValue[2]}
             </Tile>
           </View>
           <View style={styles.tileRow}>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 3)} sourcePicture={this.props.sourcePicture}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 3)} sourcePicture={this.state.sourcePicture}>
               {this.props.tilesValue[3]}
             </Tile>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 4)} sourcePicture={this.props.sourcePicture}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 4)} sourcePicture={this.state.sourcePicture}>
               {this.props.tilesValue[4]}
             </Tile>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 5)} sourcePicture={this.props.sourcePicture}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 5)} sourcePicture={this.state.sourcePicture}>
               {this.props.tilesValue[5]}
             </Tile>
           </View>
           <View style={styles.tileRow}>
-            <Tile tileSize={this.props.dimension / 3} sourcePicture={this.props.sourcePicture} onPress={this.tilePress.bind(this, 6)}>
+            <Tile tileSize={this.props.dimension / 3} sourcePicture={this.state.sourcePicture} onPress={this.tilePress.bind(this, 6)}>
               {this.props.tilesValue[6]}
             </Tile>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 7)} sourcePicture={this.props.sourcePicture}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 7)} sourcePicture={this.state.sourcePicture}>
               {this.props.tilesValue[7]}
             </Tile>
-            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 8)} sourcePicture={this.props.sourcePicture}>
+            <Tile tileSize={this.props.dimension / 3} onPress={this.tilePress.bind(this, 8)} sourcePicture={this.state.sourcePicture}>
               {this.props.tilesValue[8]}
             </Tile>
           </View>
@@ -178,7 +193,7 @@ const styles = StyleSheet.create({
 
 TileGrid.propTypes = {
   dimension: PropTypes.number,
-  sourcePicture: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+  // sourcePicture: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
 };
 TileGrid.defaultProps = {
   dimension: 25
@@ -189,8 +204,8 @@ const mapStateToProps = state => ({
   tilesValue: state.tilesValue,
   tilesValuesAfterRandomize : state.tilesValuesAfterRandomize,
   win : state.win,
-  random : state.random
-  
+  random : state.random,
+  img : state.img
 });
 
 

@@ -59,7 +59,7 @@ class Tile extends Component {
 
     render() {
         let { tileSize, children, sourcePicture, ...props } = this.props;
-        let offset = this.getSize(this.props.children);
+        let offset = this.getSize(this.props.children);        
 
         return (
             <TouchableOpacity
@@ -78,7 +78,8 @@ class Tile extends Component {
                     }}
                 >
                     <Image
-                        source={{ uri: 'https://bieropolis.com/272-tm_large_default/biere-du-comte-n1-la-blonde-bio-du-mercantour.jpg' }}
+                        source={{uri :sourcePicture.uri}}
+                        // source={{ uri: 'https://media.timeout.com/images/104101101/630/472/image.jpg' }}
                         style={{
                             width: tileSize * 3,
                             height: tileSize * 3,

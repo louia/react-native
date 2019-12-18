@@ -7,7 +7,8 @@ export function reducers(state = {
     'tilesValue': ([1, 2, 3, 4, 5, 6, 7, 8, 0]),
     'tilesValuesAfterRandomize': [],
     'win': false,
-    'random' : false
+    'random' : false,
+    'img' : {uri : 'https://media.timeout.com/images/104101101/630/472/image.jpg'}
 }, action) {
     switch (action.type) {
         case actions.NEW:
@@ -39,6 +40,10 @@ export function reducers(state = {
         case actions.SETTILESVALUES:
             return Object.assign({}, state, {
                 tilesValue : action.tilesvalues
+             });
+        case actions.SETIMG:
+            return Object.assign({}, state, {
+                img : action.img
              });
         default:
             return state;

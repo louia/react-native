@@ -4,7 +4,8 @@ export const actions = {
     SETSCORE : 'SETSCORE',
     SETWIN : 'SETWIN',
     SETTILESVALUESAFTERRAND : 'SETTILESVALUESAFTERRAND',
-    SETTILESVALUES : 'SETTILESVALUES'
+    SETTILESVALUES : 'SETTILESVALUES',
+    SETIMG : 'SETIMG',
  };
  export function nouveau() {
     return {
@@ -43,6 +44,13 @@ export const actions = {
     return {
         type: actions.SETWIN,
         win : win
+    };
+ }
+
+ export function setImg(img) {
+    return {
+        type: actions.SETIMG,
+        img : img
     };
  }
 
