@@ -56,7 +56,7 @@ class Taquin extends Component {
   render() {
     return (
       <View onLayout={(event) => { this.find_dimesions(event.nativeEvent.layout) }}>
-        <Title></Title>
+        <Title navigate={this.props.navigate}></Title>
         <TileGrid
           dimension={this.state.dimension}
           >

@@ -36,6 +36,8 @@ target 'rnTaquin' do
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
   target 'rnTaquinTests' do
     inherit! :search_paths
     # Pods for testing

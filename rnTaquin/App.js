@@ -1,30 +1,37 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import Taquin from './src/components/Taquin/index';
-// import Title from './src/components/Title';
+import { View, Text, Button } from 'react-native';
+import {AsyncStorage} from 'react-native';
+
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+
+import HomeScreen from './src/components/HomeScreen/index';
+import Informations from './src/components/Informations/index';
 
 
-import { reducers } from "./src/reducers/index";
-
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-
-const store = createStore(reducers);
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    // this.state = {
-    // };
+const MainNavigator = createStackNavigator(
+  {
+    Accueil: {
+      screen: HomeScreen,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Informations: {
+      screen: Informations, 
+      navigationOptions: {
+        header : null
+      },
+    },
+  },
+  {
+    initialRouteName: 'Accueil',
   }
+);
 
-  render() {
-    return (
-      <Provider store={store}>
-      <Taquin />
-      </Provider>
-    );
-  }
-}
+
+
+const App = createAppContainer(MainNavigator);
+
 
 export default App;

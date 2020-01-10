@@ -7,6 +7,8 @@ import Modal from "react-native-modal";
 
 import { connect } from 'react-redux';
 import { setTileValues,setTileValuesAfterRand,setScore,setWin } from '../../actions/index';
+import {AsyncStorage} from 'react-native';
+
 
 class TileGrid extends React.Component {
   constructor(props) {
@@ -18,7 +20,6 @@ class TileGrid extends React.Component {
 
   componentDidMount() {
     this.randomize();
-    console.log(this.state.sourcePicture,this.props.img);
     
     if(this.state.sourcePicture != this.props.img){
       this.setState({
@@ -67,9 +68,18 @@ class TileGrid extends React.Component {
     }
     return res;
   }
+  
+  async saveKey(value) {
+    const lastValue = await AsyncStorage.getItem('@Score:key');
+    try {
+      await AsyncStorage.setItem('@Score:key', value + lastValue);
+    } catch (error) {
+      console.log("Error saving data" + error);
+    }
+  }
 
 
-  tilePress(tileNumber) {
+  tilePress(tileNumber) {        
     let dataCases = this.getCasesValides();
     if (dataCases.caseValides.includes(tileNumber)) {
       let copyVal = JSON.parse(JSON.stringify(this.props.tilesValue));
@@ -80,10 +90,13 @@ class TileGrid extends React.Component {
       copyVal[dataCases.posZero] = tempory;
 
       this.props.setScoreProps(this.props.score + 1);
+      console.log("score : " + this.props.score);
+      
       this.props.setTilesValuesProps(copyVal);
 
       if (JSON.stringify(copyVal) == JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 0])) {
-        this.props.setWinProps(true);
+        this.saveKey(this.props.score +1  + '*' + this.props.tilesValuesAfterRandomize + '//');
+        this.props.setWinProps(true);//WIN
       }
       return true;
     }
@@ -101,7 +114,7 @@ class TileGrid extends React.Component {
       <View>
         <Modal
           testID={'modal'}
-          isVisible={this.props.win}
+          isVisible={this.props.win ? 1 : 0}
           backdropColor="#B4B3DB"
           backdropOpacity={0.8}
           animationIn="zoomInDown"

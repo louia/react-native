@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Button, View, Text, StyleSheet } from 'react-native';
 
 class Title extends Component {
   constructor(props) {
@@ -8,10 +8,14 @@ class Title extends Component {
     };
   }
 
-  render() {
+  render() {   
     return (
       <View style={styles.container}>
         <Text style={styles.title}> Mon Taquin </Text>
+        <Button
+        title="En voir plus"
+        onPress={() => this.props.navigate('Informations')}
+      />
       </View>
     );
   }
@@ -19,7 +23,7 @@ class Title extends Component {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 19,
+    fontSize: 18,
     fontWeight: 'bold',
     textAlign: "center"
   },
@@ -27,8 +31,8 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     backgroundColor: "grey",
-    padding: 20,
-    margin: 20
+    padding: 15,
+    margin: 15
   }
 });
 
