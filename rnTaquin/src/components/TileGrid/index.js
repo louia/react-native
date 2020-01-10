@@ -6,7 +6,7 @@ import Modal from "react-native-modal";
 
 
 import { connect } from 'react-redux';
-import { setTileValues,setTileValuesAfterRand,setScore,setWin } from '../../actions/index';
+import { setTileValues,setTileValuesAfterRand,setScore,setWin,nouveau } from '../../actions/index';
 import {AsyncStorage} from 'react-native';
 
 
@@ -106,6 +106,7 @@ class TileGrid extends React.Component {
   toggleModal = () => {
     // this.setState({ win: !this.props.win });
     this.props.setWinProps(!this.props.win);
+    this.props.onPressNew();
   };
 
 
@@ -226,7 +227,8 @@ const mapDispatchToProps = dispatch => ({
   setTilesValuesProps: tilesValues => dispatch(setTileValues(tilesValues)),
   setTileValuesAfterRandProps: tileValuesAfterRand => dispatch(setTileValuesAfterRand(tileValuesAfterRand)),
   setScoreProps : score => dispatch(setScore(score)),
-  setWinProps : win => dispatch(setWin(win))
+  setWinProps : win => dispatch(setWin(win)),
+  onPressNew: () => dispatch(nouveau()),
 });
 
 
