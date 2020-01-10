@@ -20,7 +20,7 @@ const MainNavigator = createStackNavigator(
     Informations: {
       screen: Informations, 
       navigationOptions: {
-        header : null
+        title : 'Informations'
       },
     },
   },
