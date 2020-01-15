@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <header>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <script type='text/javascript' src='ajaxrequest.js'></script>
+        <script type='text/javascript'>
+        function authenticate(form) {
+            let port = document.getElementById('port').value;
+            new AjaxRequest({
+                url: `http://localhost:${port}/auth/login`,
+                method: 'post',
+                handleAs: 'json',
+                submitParametersAs: 'application/json',
+                parameters: {login: form.login.value, password: form.password.value, duree: form.duree.value},
+                onSuccess: (res) => {
+                    document.getElementById('jwt').innerHTML = res.jwt;
+                    document.getElementById('refreshToken').innerHTML = res.refreshToken;
+                },
+                onError: (status, err) => {
+                    window.alert('Error ' + status + ': ' + err);
+                }
+            });
+            return false;
+        } 
+        function signUp(form) {
+            let port = document.getElementById('port').value;
+            new AjaxRequest({
+                url: `http://localhost:${port}/auth/signup`,
+                method: 'post',
+                handleAs: 'json',
+                submitParametersAs: 'application/json',
+                parameters: {login: form.login.value, password: form.password.value, id: form.id.value},
+                onSuccess: (res) => {
+                    document.getElementById('jwt').innerHTML = res.jwt;
+                    document.getElementById('refreshToken').innerHTML = res.refreshToken;
+                },
+                onError: (status, err) => {
+                    window.alert('Error ' + status + ': ' + err);
+                }
+            });
+            return false;
+        } 
+        function remove(form) {
+            let port = document.getElementById('port').value;
+            new AjaxRequest({
+                url: `http://localhost:${port}/auth/delete`,
+                method: 'post',
+                handleAs: 'json',
+                submitParametersAs: 'application/json',
+                parameters: {login: form.login.value, password: form.password.value},
+                onSuccess: (res) => {
+                    document.getElementById('deleteResult').innerHTML = res.login  + ' has been delete';
+                },
+                onError: (status, err) => {
+                    document.getElementById('deleteResult').innerHTML = 'Error ' + status + ' : ' + JSON.parse(err).message;
+                }
+            });
+            return false;
+        } 
+        function userNode(user) {
+            let div = document.createElement('div');
+            div.appendChild(document.createTextNode(JSON.stringify(user)));
+            return div;
+        }
+        function listeUsers(form) {
+            let port = document.getElementById('port').value;
+            new AjaxRequest({
+                url: `http://localhost:${port}/auth/users`,
+                method: 'get',
+                handleAs: 'json',
+                submitParametersAs: 'application/json',
+                onSuccess: (res) => {
+                    let list = document.getElementById('list');
+
+                    while (list.hasChildNodes()) {
+                        list.removeChild(list.lastChild) ;
+                    }
+                    res.forEach(user => {
+                        list.appendChild(userNode(user))
+                    });
+                },
+                onError: (status, err) => {
+                    window.alert('Error ' + status + ': ' + err);
+                }
+            });
+            return false;
+        }
+        </script>
+        <style>
+            .form {
+                margin: 10px;
+                border-width: 1px;
+                border-color: black;
+                border-style: solid;
+                padding: 2px;
+            }
+            .token {
+                margin: 10px;
+                font-size: 1.2rem;
+                background-color: aliceblue;
+            }
+            .elmt {
+                margin: 3px;
+            }
+            .submit {
+                margin-left: 150px;
+            }
+            #deleteResult {
+                font-size: 1.2rem;
+                color: green;
+            }
+            #jwt {
+                color: red;
+            }
+            #refreshToken {
+                color: red;
+            }
+        </style>
+    </header>
+    <body>
+        <div class='form'>
+            Serveur
+            <form onsubmit="return false">
+                <div class='elmt'>Port <input type='text' value='8000' name='port' id='port'></div>
+            </form>
+        </div>
+        <div class='token'>
+            jwt : <span id='jwt'></span><br>
+            refreshToken : <span id='refreshToken'></span><br>
+        </div>
+        <div class='form'>
+            Authentification avec update du refresh token
+            <form onsubmit="return authenticate(this)">
+                <div class='elmt'>Login <input type='text' value='essai' name='login'></div>
+                <div class='elmt'>password <input type='text' value='essai' name='password'></div>
+                <div class='elmt'>durée <input type='text' value='300' name='duree'></div>
+                <div class='submit'><input type='submit' value='login'></div>
+            </form>
+        </div>
+        <div class='form'>
+            Inscription d'un nouvel utilisateur
+            <form onsubmit="return signUp(this)">
+                <div class='elmt'>Login <input type='text' value='' name='login'></div>
+                <div class='elmt'>password <input type='text' value='' name='password'></div>
+                <div class='elmt'>id <input type='text' value='' name='id'></div>
+                <div class='submit'><input type='submit' value='sign up'></div>
+            </form>
+        </div>
+        <div class='form'>
+            Suppression d'un utilisateur
+            <form onsubmit="return remove(this)">
+                <div class='elmt'>Login <input type='text' value='' name='login'></div>
+                <div class='elmt'>password <input type='text' value='' name='password'></div>
+                <div class='submit'><input type='submit' value='delete'></div>
+                <div class='elmt'>Résultat : <span id='deleteResult'></span></div>
+            </form>
+        </div>
+        <div class='form'>
+            Liste des utilisateurs
+            <form onsubmit="return listeUsers(this)">
+                <div class='submit'><input type='submit' value='liste'></div>
+            </form>
+            <div id='list'></div>
+        </div>
+</body>
+</html>
