@@ -8,6 +8,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import Accueil from './src/composants/Accueil';
 import ContatcsList from './src/composants/ContatcsList';
+import ContactItem from './src/composants/ContactItem';
 
 
 const MainNavigator = createStackNavigator(
@@ -16,16 +17,14 @@ const MainNavigator = createStackNavigator(
       screen: Accueil,
     },
     ContactsList: {
-      screen: ContatcsList, 
-      navigationOptions: {
-        headerLeft: null,
-        title : 'userName',
-        headerRight : <Button title={"logout"}></Button>
-      },
+      screen: ContatcsList,
     },
+    ContactItem : {
+      screen : ContactItem
+    }
   },
   {
-    initialRouteName: 'ContactsList',
+    initialRouteName: 'Accueil',
   }
 );
 

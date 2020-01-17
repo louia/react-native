@@ -7,30 +7,40 @@ import {
     Image,
     Text,
     StatusBar,
-    TouchableHighlight
+    TouchableHighlight,
+    Alert,
+    Button
 } from 'react-native';
-
-
-
 
 export class ContatcsList extends React.Component {
     constructor(props) {
         super(props);
-
     }
 
+    
+    static navigationOptions = {
+        headerLeft: null,
+        title: 'userName',
+        headerRight: <Button title={"logout"}></Button>
+    };
 
     render() {
-
+        const navigation = this.props.navigation;
         return (
             <View
                 style={styles.container}>
                 <ScrollView style={styles.scrollView}>
-                    <TouchableHighlight style={styles.text}>
-                        <View>
+                    <TouchableHighlight style={styles.text}onPress={() => navigation.navigate('ContactItem')}>
+                        <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-around',
+                            alignItems: 'center'
+                        }}>
                             <Image style={styles.image} source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/stevedesigner/128.jpg' }} />
                             <Text style={{
-                                textAlign: 'center'
+                                textAlign: 'center',
+                                fontSize: 25,
+                                fontWeight: 'bold'
                             }}>Louis Chovaneck</Text>
                         </View>
                     </TouchableHighlight>
@@ -45,19 +55,18 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollView: {
-        backgroundColor: 'pink',
-        marginHorizontal: 20,
+        // marginHorizontal: 20,
     },
     text: {
         fontSize: 16,
         backgroundColor: 'red',
         textAlign: 'center'
     },
-    image:{
-        width : 60,
-        height : 60,
-        justifyContent: 'center',
-        padding : 20
+    image: {
+        width: 60,
+        height: 60,
+        alignItems: 'flex-start',
+        margin: 10
     }
 });
 
