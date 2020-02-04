@@ -23,6 +23,7 @@ class Accueil extends React.Component {
     this.state = {
       email: '',
       password: '',
+      contacts: []
     }
   }
 
@@ -35,12 +36,14 @@ class Accueil extends React.Component {
   }
 
   onPress() {
-    console.log(this.state.email);
-    // login(this.state.email, this.state.password,this.props.navigation.navigate).then((res)=>{
-    //   console.log(res);
-      
-    // });
-    getContacts("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTU4MDgxMjk5Nzk5N30.0vxctcuTHcpDc9hLoMVU-t9DZCdPE4N1bJcU0Eg4k5Q")
+    login(this.state.email, this.state.password, this.props.navigation.navigate).then((res) => {
+      if (res != undefined) {
+        this.setState({
+          contacts: res
+        })
+        this.props.navigation.navigate('ContactsList', { contacts : this.state.contacts, username : this.state.email })
+      }
+    });
   }
 
   render() {
