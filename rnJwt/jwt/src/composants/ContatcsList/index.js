@@ -15,13 +15,14 @@ import {
 export class ContatcsList extends React.Component {
     constructor(props) {
         super(props);
+        this.navigate = props.navigation;
     }
 
     
     static navigationOptions = {
         headerLeft: null,
         title: 'userName',
-        headerRight: <Button title={"logout"}></Button>
+        headerRight:()=> <Button title={"logout"} onPress={()=>this.props.navigation.navigate('Accueil')}/>
     };
 
     render() {
@@ -30,11 +31,13 @@ export class ContatcsList extends React.Component {
             <View
                 style={styles.container}>
                 <ScrollView style={styles.scrollView}>
-                    <TouchableHighlight style={styles.text}onPress={() => navigation.navigate('ContactItem')}>
+                    <TouchableHighlight onPress={() => navigation.navigate('ContactItem')}>
                         <View style={{
                             flexDirection: 'row',
                             justifyContent: 'space-around',
-                            alignItems: 'center'
+                            alignItems: 'center',
+                            borderBottomWidth : 1,
+                            borderBottomColor : 'grey',
                         }}>
                             <Image style={styles.image} source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/stevedesigner/128.jpg' }} />
                             <Text style={{

@@ -14,7 +14,7 @@ export class ContactItem extends React.Component {
 
     static navigationOptions = {
         title: 'userName',
-        headerRight: <Button title={"logout"}></Button>
+        headerRight: ()=> <Button title={"logout"} />
     };
 
     render() {

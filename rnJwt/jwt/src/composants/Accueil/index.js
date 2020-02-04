@@ -9,6 +9,8 @@ import {
   Image,
   Alert
 } from 'react-native';
+import login, { getContacts } from '../../actions/authentification';
+
 
 
 // import { connect } from 'react-redux';
@@ -34,40 +36,11 @@ class Accueil extends React.Component {
 
   onPress() {
     console.log(this.state.email);
-    
-    fetch("http://127.0.0.1:8000/auth/login", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        "login": this.state.email,
-        "password":  this.state.password,
-      })
-    })
-      .then(res => res.json())
-      .then(
-        (result) => {
-          console.log(result);
-          if(result.jwt){
-            const navigation = this.props.navigation;
-            this.props.navigation.navigate('ContatcsList');
-          }
-          else{
-            Alert.alert("Connexion", "Identifiant Inccorect");
-            
-          }
-        },
-        // Remarque : il est important de traiter les erreurs ici
-        // au lieu d'utiliser un bloc catch(), pour ne pas passer à la trappe
-        // des exceptions provenant de réels bugs du composant.
-        (error) => {
-          console.log(error);
-
-        }
-      )
-
+    // login(this.state.email, this.state.password,this.props.navigation.navigate).then((res)=>{
+    //   console.log(res);
+      
+    // });
+    getContacts("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTU4MDgxMjk5Nzk5N30.0vxctcuTHcpDc9hLoMVU-t9DZCdPE4N1bJcU0Eg4k5Q")
   }
 
   render() {
