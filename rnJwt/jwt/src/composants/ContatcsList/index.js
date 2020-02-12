@@ -11,6 +11,8 @@ import {
     Alert,
     Button
 } from 'react-native';
+import * as Keychain from 'react-native-keychain';
+
 
 export class ContatcsList extends React.Component {
     constructor(props) {
@@ -21,17 +23,11 @@ export class ContatcsList extends React.Component {
         }
     }
     componentDidMount() {
-
-        const {setParams} = this.props.navigation;
+        const { setParams } = this.props.navigation;
         setParams({
-            myTitle:  this.props.navigation.getParam('username'),
-            myOnPress : this.props.navigation
+            myTitle: this.props.navigation.getParam('username'),
+            myOnPress: this.props.navigation
         });
-
-        // this.navigation.setParams({
-        //     myTitle: this.props.navigation.getParam('username'),
-        //     myOnPress :  this.props.navigation
-        // })
     }
 
     static navigationOptions = ({ navigation }) => {
@@ -39,17 +35,16 @@ export class ContatcsList extends React.Component {
         if (state.params != undefined) {
             return {
                 headerLeft: null,
-                title : state.params.myTitle,
-                headerRight: () => <Button title={"logout"} onPress={()=>state.params.myOnPress.navigate('Accueil')}/>
+                title: state.params.myTitle,
+                headerRight: () => <Button title={"logout"} onPress={async ()  => {
+                    state.params.myOnPress.navigate('Accueil');
+                    await Keychain.resetGenericPassword();
+                }} />
             }
         }
 
     };
 
-    // static navigationOptions = {
-    //     headerLeft: null,
-    //     headerRight: () => <Button title={"logout"} onPress={() => this.props.navigation.navigate('Accueil')} />
-    // };
 
     render() {
         const navigation = this.props.navigation;
@@ -58,7 +53,7 @@ export class ContatcsList extends React.Component {
                 style={styles.container}>
                 <ScrollView style={styles.scrollView}>
                     {this.state.contacts.map((data) => (
-                        <TouchableHighlight key={data.id} onPress={() => navigation.navigate('ContactItem', { id: data.id })}>
+                        <TouchableHighlight key={data.id} onPress={() => navigation.navigate('ContactItem', { jwt: this.props.navigation.getParam('jwt'), id: data.id, username: this.props.navigation.getParam('username') })}>
                             <View style={{
                                 flexDirection: 'row',
                                 justifyContent: 'space-around',

@@ -6,41 +6,129 @@ import {
     View,
     Text,
     StatusBar,
-    TouchableHighlight,
-    Button
+    TouchableOpacity,
+    Button,
+    Image
 } from 'react-native';
+import { getInfoContact } from '../../actions/authentification';
+import * as Keychain from 'react-native-keychain';
+
 
 export class ContactItem extends React.Component {
 
-    static navigationOptions = {
-        title: 'userName',
-        headerRight: ()=> <Button title={"logout"} />
+    constructor(props) {
+        super(props);
+        this.state = {
+            contact: []
+        }
+    }
+
+    componentDidMount() {
+        const { setParams } = this.props.navigation;
+        setParams({
+            myTitle: this.props.navigation.getParam('username'),
+            myOnPress: this.props.navigation
+        });
+        
+
+        getInfoContact(this.props.navigation.getParam('jwt'), this.props.navigation.getParam('id')).then((res) => {
+            this.setState({
+                contact: res
+            })
+        });
+    }
+
+    static navigationOptions = ({ navigation }) => {
+        const { state } = navigation;
+        if (state.params != undefined) {
+            return {
+                title: state.params.myTitle,
+                headerRight: () => <Button title={"logout"} onPress={async ()  => {
+                    state.params.myOnPress.navigate('Accueil');
+                    await Keychain.resetGenericPassword();
+                }} />
+            }
+        }
+
     };
 
     render() {
         return (
-            <View style={{
-                backgroundColor : 'red',
-                // width : '100%',
-                // height : '100%',
-                margin : 20,
-
-            }}>
-                <Text>Louis</Text>
+            <View style={styles.container}>
+                <View style={styles.header}></View>
+                <Image style={styles.avatar} source={{ uri: this.state.contact.avatar }} />
+                <View style={styles.body}>
+                    <View style={styles.bodyContent}>
+                        <Text style={styles.name}>{this.state.contact.firstName + ' ' + this.state.contact.lastName}</Text>
+                        <Text style={styles.info}>{this.state.contact.email}</Text>
+                        <Text style={styles.description}>{this.state.contact.phone}</Text>
+                        <TouchableOpacity style={styles.buttonContainer}>
+                            <Text>Call</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </View>
         );
     }
 }
 
-// const mapStateToProps = state => ({ 
-//     color: state.color,
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//     onTitlePress: () => dispatch(setcolors()),
-// });
-
-// export default connect(mapStateToProps,mapDispatchToProps)(ContactItem);
+const styles = StyleSheet.create({
+    header: {
+        backgroundColor: "#00BFFF",
+        height: 210,
+    },
+    avatar: {
+        width: 150,
+        height: 150,
+        borderRadius: 90,
+        borderWidth: 4,
+        borderColor: "white",
+        marginBottom: 10,
+        alignSelf: 'center',
+        position: 'absolute',
+        marginTop: 130
+    },
+    name: {
+        fontSize: 22,
+        color: "#FFFFFF",
+        fontWeight: '600',
+    },
+    body: {
+        marginTop: 40,
+    },
+    bodyContent: {
+        flex: 1,
+        alignItems: 'center',
+        padding: 30,
+    },
+    name: {
+        fontSize: 28,
+        color: "#696969",
+        fontWeight: "600"
+    },
+    info: {
+        fontSize: 16,
+        color: "#00BFFF",
+        marginTop: 10
+    },
+    description: {
+        fontSize: 16,
+        color: "#696969",
+        marginTop: 10,
+        textAlign: 'center'
+    },
+    buttonContainer: {
+        marginTop: 10,
+        height: 45,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20,
+        width: 250,
+        borderRadius: 30,
+        backgroundColor: "#00BFFF",
+    },
+});
 
 export default ContactItem;
 

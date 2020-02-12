@@ -10,6 +10,8 @@ import {
   Alert
 } from 'react-native';
 import login, { getContacts } from '../../actions/authentification';
+import * as Keychain from 'react-native-keychain';
+
 
 
 
@@ -35,13 +37,32 @@ class Accueil extends React.Component {
     Alert.alert("Alert", "Button pressed " + viewId);
   }
 
+  async componentDidMount() {
+    const credentials = await Keychain.getGenericPassword();    
+    if (credentials.username === "refreshToken") {
+      var refresh = credentials.password;
+      login(null,null, refresh).then((res) => {
+        if (res != undefined) {   
+          res[1].then((ress) => {
+            this.setState({
+              contacts: ress
+            })
+            this.props.navigation.navigate('ContactsList', { jwt: res[0], contacts: this.state.contacts, username: this.state.email })
+          })
+        }
+      });
+    }
+  }
+
   onPress() {
-    login(this.state.email, this.state.password, this.props.navigation.navigate).then((res) => {
-      if (res != undefined) {
-        this.setState({
-          contacts: res
+    login(this.state.email, this.state.password).then((res) => {
+      if (res != undefined) {        
+        res[1].then((ress) => {
+          this.setState({
+            contacts: ress
+          })
+          this.props.navigation.navigate('ContactsList', { jwt: res[0], contacts: this.state.contacts, username: this.state.email })
         })
-        this.props.navigation.navigate('ContactsList', { contacts : this.state.contacts, username : this.state.email })
       }
     });
   }
