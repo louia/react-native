@@ -9,6 +9,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Accueil from './src/composants/Accueil';
 import ContatcsList from './src/composants/ContatcsList';
 import ContactItem from './src/composants/ContactItem';
+import ContactEdit from './src/composants/ContactEdit';
 
 
 const MainNavigator = createStackNavigator(
@@ -21,6 +22,9 @@ const MainNavigator = createStackNavigator(
     },
     ContactItem : {
       screen : ContactItem
+    },
+    ContactEdit : {
+      screen : ContactEdit
     }
   },
   {

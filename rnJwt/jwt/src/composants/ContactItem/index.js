@@ -70,9 +70,13 @@ export class ContactItem extends React.Component {
       };
 
     render() {
-        // var NumberFormat = require('react-number-format');
+        const navigation = this.props.navigation;
+
         return (
             <View style={styles.container}>
+                <Button title={"Edit"}
+                onPress={() => navigation.navigate('ContactEdit', { jwt: this.props.navigation.getParam('jwt'), contact: this.state.contact })}
+                ></Button>
                 <View style={styles.header}></View>
                 <Image style={styles.avatar} source={{ uri: this.state.contact.avatar }} />
                 <View style={styles.body}>

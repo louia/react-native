@@ -12,12 +12,6 @@ import {
 import login, { getContacts } from '../../actions/authentification';
 import * as Keychain from 'react-native-keychain';
 
-
-
-
-// import { connect } from 'react-redux';
-// import { addSymbol,clear,equal,clearAll } from '../../actions/index';
-
 class Accueil extends React.Component {
 
   constructor(props) {
@@ -68,8 +62,6 @@ class Accueil extends React.Component {
   }
 
   render() {
-    const navigation = this.props.navigation;
-
     return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>

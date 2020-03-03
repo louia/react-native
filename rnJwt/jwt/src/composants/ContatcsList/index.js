@@ -30,6 +30,12 @@ export class ContatcsList extends React.Component {
         });
     }
 
+    componentDidUpdate(){
+        
+        this.setState({
+            contacts : this.props.navigation.getParam("contacts")
+        })
+    }
     static navigationOptions = ({ navigation }) => {
         const { state } = navigation;
         if (state.params != undefined) {
