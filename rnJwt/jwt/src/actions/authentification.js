@@ -21,6 +21,8 @@ export default async function login(login, password, refreshtoken) {
         .then(res => res.json())
         .then(
             (result) => {
+                console.log(result);
+                
                 if (result.jwt) {
                      return Keychain.setGenericPassword('refreshToken', result.refreshToken).then((r) => {                      
                        var res = getContacts(result.jwt);

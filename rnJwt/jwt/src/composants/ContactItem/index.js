@@ -8,10 +8,14 @@ import {
     StatusBar,
     TouchableOpacity,
     Button,
-    Image
+    Image,
+    Linking,
+    Platform
 } from 'react-native';
 import { getInfoContact } from '../../actions/authentification';
 import * as Keychain from 'react-native-keychain';
+
+import NumberFormat from 'react-number-format';
 
 
 export class ContactItem extends React.Component {
@@ -29,7 +33,7 @@ export class ContactItem extends React.Component {
             myTitle: this.props.navigation.getParam('username'),
             myOnPress: this.props.navigation
         });
-        
+
 
         getInfoContact(this.props.navigation.getParam('jwt'), this.props.navigation.getParam('id')).then((res) => {
             this.setState({
@@ -43,7 +47,7 @@ export class ContactItem extends React.Component {
         if (state.params != undefined) {
             return {
                 title: state.params.myTitle,
-                headerRight: () => <Button title={"logout"} onPress={async ()  => {
+                headerRight: () => <Button title={"logout"} onPress={async () => {
                     state.params.myOnPress.navigate('Accueil');
                     await Keychain.resetGenericPassword();
                 }} />
@@ -52,7 +56,21 @@ export class ContactItem extends React.Component {
 
     };
 
+    makeCall = () => {
+
+        let phoneNumber = '';
+    
+        if (Platform.OS === 'android') {
+          phoneNumber = 'tel:${'+this.state.contact.phone+'}';
+        } else {
+          phoneNumber = 'telprompt:${'+this.state.contact.phone+'}';
+        }
+    
+        Linking.openURL(phoneNumber);
+      };
+
     render() {
+        // var NumberFormat = require('react-number-format');
         return (
             <View style={styles.container}>
                 <View style={styles.header}></View>
@@ -61,8 +79,14 @@ export class ContactItem extends React.Component {
                     <View style={styles.bodyContent}>
                         <Text style={styles.name}>{this.state.contact.firstName + ' ' + this.state.contact.lastName}</Text>
                         <Text style={styles.info}>{this.state.contact.email}</Text>
-                        <Text style={styles.description}>{this.state.contact.phone}</Text>
-                        <TouchableOpacity style={styles.buttonContainer}>
+                        <NumberFormat value={this.state.contact.phone}
+                            type='tel'
+                            displayType={'text'} 
+                            format="+## # ## ## ## ##"
+                            renderText={(value) =>  <Text style={styles.description}>{value}</Text>}
+                        />
+                        {/* <Text style={styles.description}>{this.state.contact.phone}</Text> */}
+                        <TouchableOpacity style={styles.buttonContainer} onPress={this.makeCall} > 
                             <Text>Call</Text>
                         </TouchableOpacity>
                     </View>

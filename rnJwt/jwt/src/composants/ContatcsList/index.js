@@ -48,6 +48,7 @@ export class ContatcsList extends React.Component {
 
     render() {
         const navigation = this.props.navigation;
+        
         return (
             <View
                 style={styles.container}>
